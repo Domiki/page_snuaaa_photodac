@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import AssignmentItem from "./AssignmentItem";
+import Schedule from "./Schedule";
 import styles from "../styles/App.module.css";
 
 export default function Dashboard({ user }) {
@@ -11,19 +12,6 @@ export default function Dashboard({ user }) {
   const [practiceSessions, setPracticeSessions] = useState([]);
   const [finalExamScore, setFinalExamScore] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-
-  const PracticeDates = [
-    ["", "", "", "", ""],
-    ["(09/03)", "(09/17)", "(10/01)", "(10/22)", "(11/12)"],
-    ["(09/10)", "(09/24)", "(10/15)", "(11/05)", "(11/19)"],
-  ];
-  const PracticeTitles = [
-    "카메라 사용법",
-    "고정촬영 실습",
-    "가이드촬영 실습",
-    "망원경 가이드촬영 실습 1",
-    "망원경 가이드촬영 실습 2",
-  ];
 
   const fetchData = useCallback(async () => {
     if (!user?.id) return;
@@ -61,6 +49,8 @@ export default function Dashboard({ user }) {
           그룹: {group == null ? "미정" : group}
         </h2>
       </header>
+      <Schedule />
+
       <div className={`${styles.card} ${styles.cardMarginBottom}`}>
         <h2 className={styles.subtitle}>수업 별 출석 현황</h2>
         <div className={styles.list}>
@@ -116,13 +106,7 @@ export default function Dashboard({ user }) {
                   : "";
               return (
                 <div key={index} className={styles.listItem}>
-                  <span>
-                    {session.name +
-                      " " +
-                      PracticeDates[Number(group)][index] +
-                      " - " +
-                      PracticeTitles[index]}
-                  </span>
+                  <span>{session.name}</span>
                   <span className={`${styles.status} ${statusStyle}`}>
                     {session.status === "미정" ? "-" : session.status}
                   </span>
